@@ -1,0 +1,4 @@
+--liquibase formatted sql
+
+-- changeset jklein:v0-1
+CREATE SEQUENCE IF NOT EXISTS hibernate_sequence AS BIGINT START WITH 1 INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1;
