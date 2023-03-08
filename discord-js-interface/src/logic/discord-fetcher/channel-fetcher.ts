@@ -1,4 +1,4 @@
-import {
+import Discord, {
   BaseGuildTextChannel,
   BaseGuildVoiceChannel,
   Guild,
@@ -15,23 +15,21 @@ export class ChannelFetcher {
   public getTextChannelsFromGuild$(guild: Guild): Observable<TextChannel[]> {
     return this.getGuildChannelsFromGuild$(guild).pipe(
       map(channels => channels
-        .filter(channel => channel.isTextBased())
+        .filter(channel => channel.type === Discord.ChannelType.GuildText)
         .map(channel => channel as TextChannel)),
     );
   };
 
   public getVoiceChannelsFromGuild$(guild: Guild): Observable<VoiceChannel[]> {
     return this.getGuildChannelsFromGuild$(guild).pipe(
-      map(channels => channels.filter(channel => channel.isVoiceBased()).map(channel => channel as VoiceChannel)),
+      map(channels => channels.filter(channel => channel.type === Discord.ChannelType.GuildVoice).map(channel => channel as VoiceChannel)),
     );
   };
 
   public getTextChannelById$(channelId: string, guild: Guild): Observable<TextChannel> {
-    return this.getGuildChannelsFromGuild$(guild).pipe(
+    return this.getTextChannelsFromGuild$(guild).pipe(
       map(channels => {
-        channels
-          .filter(channel => channel.isTextBased())
-          .filter(channel => channel.id === channelId);
+        channels.filter(channel => channel.id === channelId);
         return channels.pop() as TextChannel;
       }),
     );

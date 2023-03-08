@@ -16,7 +16,24 @@ export class ChannelRoutingModule {
     this.channelFetcher = channelFetcher;
     this.guildFetcher = guildFetcher;
     this.channelRouter.get('/voice', this.getAllVoiceChannels);
+    this.channelRouter.get('/text', this.getAllTextChannels);
     return this.channelRouter;
+  }
+
+  private static getAllTextChannels(req: Request, res: Response) {
+    ChannelRoutingModule.guildFetcher.getAllGuilds$().pipe(
+      concatMap(guilds => {
+        return ChannelRoutingModule.channelFetcher.getTextChannelsFromGuild$(guilds[0]);
+      }),
+      map(channels => {
+        let channelDtos: ChannelWithMembersDto[] = [];
+        for (const channel of channels) {
+          const members = ChannelRoutingModule.channelFetcher.getMembersFromTextChannel(channel);
+          channelDtos.push(ChannelMapper.mapChannelToDtoWithMembers(channel, members));
+        }
+        return channelDtos;
+      }),
+    ).subscribe(channelDtos => res.send(channelDtos));
   }
 
   private static getAllVoiceChannels(req: Request, res: Response) {
