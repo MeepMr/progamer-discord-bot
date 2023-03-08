@@ -9,13 +9,13 @@ import { ChannelRoutingModule } from './logic/routing/channel-routing';
 import { map, mergeMap, take, toArray } from 'rxjs';
 import { ChannelMapper } from './logic/mapper/ChannelMapper';
 import { MessageSender } from './logic/discord-interactor/message-sender';
+import { MessageRoutingModule } from './logic/routing/message-routing';
 
 Environment.readEnvFile();
 const discordInit = new DiscordInitializer(Environment.BOT_TOKEN);
+const expressApplication = new ExpressInitializer(Environment.APPLICATION_PORT);
 const guildFetcher = new GuildFetcher(discordInit.discordClient);
 const channelFetcher = new ChannelFetcher();
-const channelRouter = new ChannelRoutingModule(channelFetcher, guildFetcher);
-const expressApplication = new ExpressInitializer(Environment.APPLICATION_PORT);
 const messageSender = new MessageSender(channelFetcher, guildFetcher);
 
 expressApplication.expressApp.get('/guild', (req, res) => {
@@ -36,13 +36,9 @@ expressApplication.expressApp.get('/guild', (req, res) => {
       take(1),
     )
     .subscribe(dtos => {
-      console.log(dtos);
       res.send(dtos);
     });
 });
 
-expressApplication.expressApp.get('/message', (req, res) => {
-  messageSender.sendMessageToChannel$('1047947055580057650').subscribe(() => res.send());
-});
-
-expressApplication.expressApp.use('/channel', channelRouter.registerRouter());
+expressApplication.expressApp.use('/channel', ChannelRoutingModule.registerRouter(channelFetcher, guildFetcher));
+expressApplication.expressApp.use('/message', MessageRoutingModule.registerRouter(messageSender));

@@ -4,21 +4,19 @@ import { GuildFetcher } from '../discord-fetcher/guild-fetcher';
 
 export class ChannelRoutingModule {
 
-  private channelRouter: Router;
+  private static channelRouter: Router;
+  private static channelFetcher: ChannelFetcher;
+  private static guildFetcher: GuildFetcher;
 
-  constructor(private channelFetcher: ChannelFetcher, private guildFetcher: GuildFetcher) {
+  static registerRouter(channelFetcher: ChannelFetcher, guildFetcher: GuildFetcher): Router {
     this.channelRouter = Router();
+    this.channelFetcher = channelFetcher;
+    this.guildFetcher = guildFetcher;
+    this.channelRouter.get('/voice', this.getAllVoiceChannels);
+    return this.channelRouter;
   }
 
-  registerChannelRouter(): Router {
-    const channelRouter = Router();
-
-    channelRouter.get('/channels/voice', this.getAllVoiceChannels);
-
-    return channelRouter;
-  }
-
-  async getAllVoiceChannels(req: Request, res: Response) {
+  private static getAllVoiceChannels(req: Request, res: Response) {
     // let channelDtos: ChannelWithMembersDto[] = [];
     // const guilds = await this.guildFetcher.getAllGuilds();
     // const channels = await this.channelFetcher.getVoiceChannelsFromGuild(guilds[0]);
@@ -29,6 +27,7 @@ export class ChannelRoutingModule {
     // }
     //
     // res.send(channelDtos);
+    console.log(ChannelRoutingModule.channelFetcher);
     res.send();
   }
 }

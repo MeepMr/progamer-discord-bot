@@ -1,23 +1,21 @@
 import { Request, Response, Router } from 'express';
-import { ChannelFetcher } from '../discord-fetcher/channel-fetcher';
+import { MessageSender } from '../discord-interactor/message-sender';
 
 export class MessageRoutingModule {
+  private static messageRouter: Router;
+  private static messageSender: MessageSender;
 
-  private messageRouter: Router;
-
-  constructor(channelFetcher: ChannelFetcher) {
+  static registerRouter(messageSender: MessageSender): Router {
     this.messageRouter = Router();
+    this.messageSender = messageSender;
+    this.messageRouter.post('/send/', this.sendMessage);
+    return this.messageRouter;
   }
 
-  registerChannelRouter(): Router {
-    const channelRouter = Router();
-
-    channelRouter.get('/send/:channelId', this.sendMessage);
-
-    return channelRouter;
-  }
-
-  async sendMessage(req: Request, res: Response) {
-    const channelId = req.params.channelId;
+  private static sendMessage(req: Request, res: Response) {
+    const channelId = req.body.channelId!;
+    const message = req.body.messageText!;
+    MessageRoutingModule.messageSender.sendMessageToChannel$(channelId, message)
+      .subscribe(() => res.send());
   }
 }

@@ -7,7 +7,7 @@ export class MessageSender {
   constructor(private channelFetcher: ChannelFetcher, private guildFetcher: GuildFetcher) {
   }
 
-  sendMessageToChannel$(channelId: string): Observable<void> {
+  sendMessageToChannel$(channelId: string, message: string): Observable<void> {
     return this.guildFetcher.getAllGuilds$().pipe(
       mergeMap(guilds => guilds),
       mergeMap(guild => {
@@ -19,7 +19,7 @@ export class MessageSender {
       toArray(),
       map(channels => {
         if (channels.length === 1) {
-          channels[0].send('Test');
+          channels[0].send(message);
         }
       }),
       take(1),
