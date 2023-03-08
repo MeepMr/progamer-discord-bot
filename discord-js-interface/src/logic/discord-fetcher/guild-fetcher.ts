@@ -1,5 +1,5 @@
-import { Client, Guild } from 'discord.js';
-import { concatMap, defer, from, Observable } from 'rxjs';
+import { Client, Guild, GuildMember } from 'discord.js';
+import { concatMap, defer, filter, from, map, Observable, toArray } from 'rxjs';
 
 export class GuildFetcher {
 
@@ -23,4 +23,29 @@ export class GuildFetcher {
         }),
       );
   };
+
+  getMembersFromGuild$(guild: Guild): Observable<GuildMember[]> {
+    return defer(() => from(guild.members.list()))
+      .pipe(
+        map(memberMap => memberMap.values()),
+        map(members => {
+          const guildMembers: GuildMember[] = [];
+
+          for (let member of members) {
+            guildMembers.push(member);
+          }
+
+          return guildMembers;
+        }),
+      );
+  };
+
+  getGuild$(guildId: string): Observable<Guild> {
+    return this.getAllGuilds$().pipe(
+      concatMap(guilds => guilds),
+      filter(guild => guild.id === guildId),
+      toArray(),
+      map(matchingGuilds => matchingGuilds[0]),
+    );
+  }
 }
