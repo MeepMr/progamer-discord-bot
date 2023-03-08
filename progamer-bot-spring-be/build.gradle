@@ -24,6 +24,7 @@ dependencies {
 
     // Util
     implementation deps.spring.boot.configurationProcessor
+    implementation deps.spring.boot.starter.webflux
     testImplementation deps.spring.boot.starter.test
 
     // Database
