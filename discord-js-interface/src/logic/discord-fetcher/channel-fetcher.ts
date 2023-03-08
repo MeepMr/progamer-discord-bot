@@ -9,7 +9,7 @@ import {
 } from 'discord.js';
 import { MemberDto } from '../../model/dto/MemberDto';
 import { MemberMapper } from '../mapper/MemberMapper';
-import { defer, from, map, Observable } from 'rxjs';
+import { defer, from, map, Observable, tap } from 'rxjs';
 
 export class ChannelFetcher {
 
@@ -24,6 +24,7 @@ export class ChannelFetcher {
   public getVoiceChannelsFromGuild$(guild: Guild): Observable<VoiceChannel[]> {
     return this.getGuildChannelsFromGuild$(guild).pipe(
       map(channels => channels.filter(channel => channel.isVoiceBased()).map(channel => channel as VoiceChannel)),
+      tap(console.log),
     );
   };
 
