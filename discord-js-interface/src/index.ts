@@ -25,11 +25,7 @@ expressApplication.expressApp.get('/guild', (req, res) => {
       mergeMap(guild => {
         return channelFetcher.getVoiceChannelsFromGuild$(guild)
           .pipe(
-            map(channels => {
-              const t = GuildMapper.mapToDto(guild, ChannelMapper.mapChannelsToDto(channels));
-              console.log(t);
-              return t;
-            }),
+            map(channels => GuildMapper.mapToDto(guild, ChannelMapper.mapChannelsToDto(channels))),
           );
       }),
       toArray(),

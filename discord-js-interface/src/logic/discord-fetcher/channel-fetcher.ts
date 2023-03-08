@@ -2,14 +2,13 @@ import {
   BaseGuildTextChannel,
   BaseGuildVoiceChannel,
   Guild,
-  GuildBasedChannel,
   GuildChannel,
   TextChannel,
   VoiceChannel,
 } from 'discord.js';
 import { MemberDto } from '../../model/dto/MemberDto';
 import { MemberMapper } from '../mapper/MemberMapper';
-import { defer, from, map, Observable, tap } from 'rxjs';
+import { defer, from, map, Observable } from 'rxjs';
 
 export class ChannelFetcher {
 
@@ -24,17 +23,7 @@ export class ChannelFetcher {
   public getVoiceChannelsFromGuild$(guild: Guild): Observable<VoiceChannel[]> {
     return this.getGuildChannelsFromGuild$(guild).pipe(
       map(channels => channels.filter(channel => channel.isVoiceBased()).map(channel => channel as VoiceChannel)),
-      tap(console.log),
     );
-  };
-
-  public getMembersFromChannel(channel: GuildBasedChannel): MemberDto[] {
-    if (channel.isVoiceBased()) {
-      return this.getMembersFromVoiceChannel(channel as BaseGuildVoiceChannel);
-    } else if (channel.isTextBased()) {
-      return this.getMembersFromTextChannel(channel as BaseGuildTextChannel);
-    }
-    return [];
   };
 
   public getTextChannelById$(channelId: string, guild: Guild): Observable<TextChannel> {
@@ -62,7 +51,7 @@ export class ChannelFetcher {
     );
   }
 
-  private getMembersFromVoiceChannel(voiceChannel: BaseGuildVoiceChannel): MemberDto[] {
+  getMembersFromVoiceChannel(voiceChannel: BaseGuildVoiceChannel): MemberDto[] {
     let members: MemberDto[] = [];
 
     if (voiceChannel.members.size > 0) {
@@ -74,7 +63,7 @@ export class ChannelFetcher {
     return members;
   };
 
-  private getMembersFromTextChannel(textChannel: BaseGuildTextChannel): MemberDto[] {
+  getMembersFromTextChannel(textChannel: BaseGuildTextChannel): MemberDto[] {
     let members: MemberDto[] = [];
 
     if (textChannel.members.size > 0) {
