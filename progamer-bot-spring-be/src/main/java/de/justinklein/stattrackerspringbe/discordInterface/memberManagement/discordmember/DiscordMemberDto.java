@@ -1,4 +1,4 @@
-package de.justinklein.stattrackerspringbe.discordInterface.memberManagement.model;
+package de.justinklein.stattrackerspringbe.discordInterface.memberManagement.discordmember;
 
 import jakarta.annotation.Nonnull;
 import lombok.AllArgsConstructor;

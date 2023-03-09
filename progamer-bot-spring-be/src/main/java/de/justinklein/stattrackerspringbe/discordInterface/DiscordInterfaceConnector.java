@@ -1,7 +1,7 @@
 package de.justinklein.stattrackerspringbe.discordInterface;
 
 import de.justinklein.stattrackerspringbe.config.properties.DiscordInterfaceProperties;
-import de.justinklein.stattrackerspringbe.discordInterface.memberManagement.model.DiscordGuildMembersDto;
+import de.justinklein.stattrackerspringbe.discordInterface.memberManagement.discordmember.DiscordGuildMembersDto;
 import de.justinklein.stattrackerspringbe.discordInterface.sendMessage.SendMessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +46,6 @@ public class DiscordInterfaceConnector {
 
 
     if (response != null) {
-
       log.info("Fetched %d members from Guild %s".formatted(response.getGuildMembers().size(), guildId));
       return Optional.of(response);
     } else {

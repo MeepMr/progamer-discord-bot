@@ -8,5 +8,5 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "stat-tracker.discord-interface")
 @Data
 public class DiscordInterfaceProperties {
-    private String url;
+  private String url;
 }

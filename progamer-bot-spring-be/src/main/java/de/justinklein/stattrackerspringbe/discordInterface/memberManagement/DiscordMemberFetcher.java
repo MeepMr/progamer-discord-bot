@@ -1,9 +1,7 @@
 package de.justinklein.stattrackerspringbe.discordInterface.memberManagement;
 
 import de.justinklein.stattrackerspringbe.discordInterface.DiscordInterfaceConnector;
-import de.justinklein.stattrackerspringbe.discordInterface.memberManagement.model.DiscordGuildMembersDto;
-import de.justinklein.stattrackerspringbe.discordInterface.memberManagement.model.DiscordMember;
-import de.justinklein.stattrackerspringbe.discordInterface.memberManagement.model.DiscordMemberDto;
+import de.justinklein.stattrackerspringbe.discordInterface.memberManagement.discordmember.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

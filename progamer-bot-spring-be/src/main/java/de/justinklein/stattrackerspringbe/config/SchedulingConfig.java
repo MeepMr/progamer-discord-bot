@@ -12,8 +12,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 public class SchedulingConfig {
 
   private final DiscordMemberFetcher messageSender;
-    @Scheduled(fixedDelay = 10000)
-    public void fetchCurrentChannelActivity() {
-      messageSender.updateAllMembersFromGuild();
-    }
+
+  @Scheduled(fixedDelay = 10000)
+  public void fetchCurrentChannelActivity() {
+    messageSender.updateAllMembersFromGuild();
+  }
 }
