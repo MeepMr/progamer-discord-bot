@@ -1,4 +1,4 @@
-package de.justinklein.stattrackerspringbe.discordInterface.sendMessage;
+package de.justinklein.stattrackerspringbe.discordInterface.messageSending;
 
 import lombok.Builder;
 import lombok.Data;
@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class SendMessageDto {
-  private String channelId;
+  private Long channelId;
   private String messageText;
 }

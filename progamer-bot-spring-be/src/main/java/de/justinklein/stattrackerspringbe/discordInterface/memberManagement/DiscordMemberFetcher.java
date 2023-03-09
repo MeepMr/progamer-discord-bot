@@ -1,7 +1,8 @@
 package de.justinklein.stattrackerspringbe.discordInterface.memberManagement;
 
 import de.justinklein.stattrackerspringbe.discordInterface.DiscordInterfaceConnector;
-import de.justinklein.stattrackerspringbe.discordInterface.memberManagement.discordmember.*;
+import de.justinklein.stattrackerspringbe.discordInterface.guildManagement.discordGuild.DiscordGuild;
+import de.justinklein.stattrackerspringbe.discordInterface.memberManagement.discordMember.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public class DiscordMemberFetcher {
   private final DiscordMemberMapper memberMapper;
   private final DiscordMemberRepository memberRepository;
 
-  public void updateAllMembersFromGuild() {
+  public void updateAllMembersFromGuild(DiscordGuild guild) {
     var memberDtosOptional = discordInterface.getDiscordMembersFromGuild("1033155520758042675");
     memberDtosOptional.ifPresent(this::saveGuildMembersToDatabase);
   }

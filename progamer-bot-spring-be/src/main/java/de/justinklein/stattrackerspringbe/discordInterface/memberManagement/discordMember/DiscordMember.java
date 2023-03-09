@@ -1,4 +1,4 @@
-package de.justinklein.stattrackerspringbe.discordInterface.memberManagement.discordmember;
+package de.justinklein.stattrackerspringbe.discordInterface.memberManagement.discordMember;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

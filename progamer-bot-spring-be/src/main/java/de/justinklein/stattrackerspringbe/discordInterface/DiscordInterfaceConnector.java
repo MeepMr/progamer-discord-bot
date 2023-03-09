@@ -1,8 +1,8 @@
 package de.justinklein.stattrackerspringbe.discordInterface;
 
 import de.justinklein.stattrackerspringbe.config.properties.DiscordInterfaceProperties;
-import de.justinklein.stattrackerspringbe.discordInterface.memberManagement.discordmember.DiscordGuildMembersDto;
-import de.justinklein.stattrackerspringbe.discordInterface.sendMessage.SendMessageDto;
+import de.justinklein.stattrackerspringbe.discordInterface.memberManagement.discordMember.DiscordGuildMembersDto;
+import de.justinklein.stattrackerspringbe.discordInterface.messageSending.SendMessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +20,7 @@ public class DiscordInterfaceConnector {
 
   private final DiscordInterfaceProperties interfaceProperties;
 
-  public void sendMessage(SendMessageDto messageDto) {
+  public void sendMessage(Long guildId, SendMessageDto messageDto) {
     var client = WebClient.create(interfaceProperties.getUrl());
 
     log.info("Sending message to channel with id %s".formatted(messageDto.getChannelId()));
