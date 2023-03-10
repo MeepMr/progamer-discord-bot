@@ -35,7 +35,7 @@ public class DiscordInterfaceConnector {
 
   }
 
-  public Optional<DiscordGuildMembersDto> getDiscordMembersFromGuild(String guildId) {
+  public Optional<DiscordGuildMembersDto> getDiscordMembersFromGuild(Long guildId) {
     var client = WebClient.create(interfaceProperties.getUrl());
 
     var response = client.get()
