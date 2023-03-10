@@ -1,7 +1,7 @@
 package de.justinklein.stattrackerspringbe.config;
 
 import de.justinklein.stattrackerspringbe.birthdaybot.BirthdayBotService;
-import de.justinklein.stattrackerspringbe.discordInterface.DiscordInterfaceConnector;
+import de.justinklein.stattrackerspringbe.discordInterface.DiscordUpdater;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 public class SchedulingConfig {
 
   private final BirthdayBotService birthdayBotService;
-  private final DiscordInterfaceConnector discordInterfaceConnector;
+  private final DiscordUpdater discordUpdater;
 
   // Runs every day at 00:00 (using server-time)
   @Scheduled(fixedDelay = 10000)
@@ -24,8 +24,10 @@ public class SchedulingConfig {
     birthdayBotService.sendBirthdayMessages();
   }
 
+  // Runs every hour
+  @Scheduled(fixedDelay = 10000)
   public void updateUserDatabase() {
     log.info("Updating users for all guilds (%d)");
-
+    discordUpdater.updateUserDatabase();
   }
 }

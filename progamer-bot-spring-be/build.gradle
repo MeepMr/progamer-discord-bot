@@ -34,7 +34,6 @@ dependencies {
 }
 
 group = 'de.justin-klein'
-version = '0.0.1'
 description = 'progamer-bot-spring-be'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -44,4 +43,10 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks.withType(Javadoc).configureEach {
     options.encoding = 'UTF-8'
+}
+
+if (project.hasProperty('projVersion')) {
+    project.version = project.projVersion
+} else {
+    project.version = '10.0.0'
 }

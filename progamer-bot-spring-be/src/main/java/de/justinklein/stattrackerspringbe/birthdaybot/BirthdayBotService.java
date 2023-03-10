@@ -1,7 +1,8 @@
 package de.justinklein.stattrackerspringbe.birthdaybot;
 
 import de.justinklein.stattrackerspringbe.birthdaybot.birthdayConfig.BirthdayConfigRepository;
-import de.justinklein.stattrackerspringbe.discordInterface.DiscordInterfaceConnector;
+import de.justinklein.stattrackerspringbe.discordInterface.guildManagement.DiscordGuildService;
+import de.justinklein.stattrackerspringbe.discordInterface.messageSending.DiscordMessageSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -10,11 +11,18 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class BirthdayBotService {
-  private final DiscordInterfaceConnector discordInterfaceConnector;
+  private final DiscordGuildService guildService;
   private final BirthdayConfigRepository configRepository;
+  private final DiscordMessageSender messageSender;
 
   public void sendBirthdayMessages() {
-
+    guildService.getAllGuilds().forEach(guild -> {
+      messageSender.sendMessage(
+        guild.getGuildId(),
+        guild.getBirthdayConfig().getBirthdayChannelId(),
+        "Test-Birthday-Message"
+      );
+    });
   }
 
   public void setBirthdayChannel(Long guildId, Long channelId) {

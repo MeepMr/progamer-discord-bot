@@ -1,0 +1,47 @@
+version: "3.8"
+
+networks:
+  progamer-bot-internal:
+  progamer-bot-data:
+  progamer-bot-external:
+
+services:
+  progamer-bot-db:
+    image: postgres
+    container_name: progamer-bot-db
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+    ports:
+      - "5432:5432"
+    networks:
+      - progamer-bot-data
+
+  progamer-bot-backend:
+    image: stat-tracker-backend
+    container_name: progamer-bot-backend
+    depends_on:
+      - progamer-bot-db
+      - discord-interface
+    environment:
+      DB_HOST: progamer-bot-db
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+    ports:
+      - "8080:8080"
+    networks:
+      - progamer-bot-internal
+      - progamer-bot-data
+      - progamer-bot-external
+
+  discord-interface:
+    image: progamer-discord-interface-bot
+    container_name: progamer-discord-interface-bot
+    environment:
+      DISCORD_INTERFACE_BOT_TOKEN: "${DISCORD_INTERFACE_BOT_TOKEN}"
+    ports:
+      - "8081:8081"
+    networks:
+      - progamer-bot-internal
