@@ -36,7 +36,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           builder: ${{ steps.buildx.outputs.name }}
-          context: ./progamer-spring-be
+          context: ./progamer-bot-spring-be
           file: ./progamer-bot-docker/progamer-bot-spring-backend.dockerfile
           platforms: linux/amd64
           push: true
