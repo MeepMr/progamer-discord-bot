@@ -12,3 +12,9 @@ jobs:
     with:
       environment: 'dev'
     secrets: inherit
+
+  deploy-prod:
+    uses: ./.github/workflows/execute-deployment.yml
+    with:
+      environment: 'prod'
+    secrets: inherit
