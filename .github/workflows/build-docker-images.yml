@@ -50,17 +50,17 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ghcr.io/meepmr/${{ vars.spring-backend-container-name }}:latest
-            ghcr.io/meepmr/${{ vars.spring-backend-container-name }}:${{ vars.version-number }}
-            ghcr.io/meepmr/${{ vars.spring-backend-container-name }}:${{ vars.version-number-major }}
-            ghcr.io/meepmr/${{ vars.spring-backend-container-name }}:${{ vars.version-number-major }}.${{ vars.version-number-minor }}
+            ghcr.io/meepmr/${{ inputs.spring-backend-container-name }}:latest
+            ghcr.io/meepmr/${{ inputs.spring-backend-container-name }}:${{ inputs.version-number }}
+            ghcr.io/meepmr/${{ inputs.spring-backend-container-name }}:${{ inputs.version-number-major }}
+            ghcr.io/meepmr/${{ inputs.spring-backend-container-name }}:${{ inputs.version-number-major }}.${{ inputs.version-number-minor }}
 
   build-discord-interface-image:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Update version number in package.json
-        run: npm version ${{ vars.version-number }}
+        run: npm version ${{ inputs.version-number }}
         working-directory: ./discord-js-interface
       - name: Set up QEMU
         uses: docker/setup-qemu-action@master
@@ -84,7 +84,7 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ghcr.io/meepmr/${{ vars.discord-interface-container-name }}:latest
-            ghcr.io/meepmr/${{ vars.discord-interface-container-name }}:${{ vars.version-number }}
-            ghcr.io/meepmr/${{ vars.discord-interface-container-name }}:${{ vars.version-number-major }}
-            ghcr.io/meepmr/${{ vars.discord-interface-container-name }}:${{ vars.version-number-major }}.${{ vars.version-number-minor }}
+            ghcr.io/meepmr/${{ inputs.discord-interface-container-name }}:latest
+            ghcr.io/meepmr/${{ inputs.discord-interface-container-name }}:${{ inputs.version-number }}
+            ghcr.io/meepmr/${{ inputs.discord-interface-container-name }}:${{ inputs.version-number-major }}
+            ghcr.io/meepmr/${{ inputs.discord-interface-container-name }}:${{ inputs.version-number-major }}.${{ inputs.version-number-minor }}
