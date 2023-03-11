@@ -27,10 +27,10 @@ jobs:
     needs: get-version-number
     uses: ./.github/workflows/build-docker-images.yml
     with:
-      version-number: ${{ needs.get-version-number.outputs.version_no }}
-      version-number-major: ${{ needs.get-version-number.outputs.version_no-major }}
-      version-number-minor: ${{ needs.get-version-number.outputs.version_no-minor }}
-      version-number-patch: ${{ needs.get-version-number.outputs.version_no-patch }}
+      version-number: ${{ needs.get-version-number.outputs.version-no }}
+      version-number-major: ${{ needs.get-version-number.outputs.version-no-major }}
+      version-number-minor: ${{ needs.get-version-number.outputs.version-no-minor }}
+      version-number-patch: ${{ needs.get-version-number.outputs.version-no-patch }}
       discord-interface-container-name: 'discord-interface-dev'
       spring-backend-container-name: 'progamer-bot-spring-be-dev'
     secrets: inherit
