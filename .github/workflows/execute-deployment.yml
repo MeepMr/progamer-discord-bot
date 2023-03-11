@@ -5,16 +5,10 @@ on:
       environment:
         required: true
         type: string
-    secrets:
-      SSH_PRIVATE_KEY:
-        required: true
-      SSH_USER:
-        required: true
-      SSH_HOST:
-        required: true
         
 jobs:
   deploy:
+    environment: ${{ inputs.environment }}
     name: "Deploy to ${{ inputs.environment }}"
     runs-on: ubuntu-latest
     steps:
