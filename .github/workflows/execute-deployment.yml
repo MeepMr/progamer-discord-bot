@@ -30,4 +30,4 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
       - name: deploy
-        run: ssh vps 'cd VPS-Config/progamer-bot/${{ inputs.environment }} && dcup'
+        run: ssh vps '${{ vars.DEPLOYMENT_COMMAND }}'
