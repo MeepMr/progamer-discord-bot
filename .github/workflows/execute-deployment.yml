@@ -20,9 +20,9 @@ jobs:
         env:
           OP_CONNECT_HOST: ${{ secrets.OP_CONNECT_HOST }}
           OP_CONNECT_TOKEN: ${{ secrets.OP_CONNECT_TOKEN }}
-          SSH_USER: op://Hosting-Secrets/OVH-jklein-vps-1/Admin Console/admin-console-username
+          SSH_USER: 'op://Hosting-Secrets/OVH-jklein-vps-1/Admin Console/admin-console-username'
           SSH_KEY: op://Hosting-Secrets/GitHub-Actions-VPS-SSH-Key/github-action/decrypted-private-key
-          SSH_HOST: op://Hosting-Secrets/OVH-jklein-vps-1/Admin Console/admin-console-URL
+          SSH_HOST: 'op://Hosting-Secrets/OVH-jklein-vps-1/Admin Console/admin-console-URL'
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
