@@ -23,7 +23,7 @@ jobs:
       - id: get_patch_version_number
         run: echo "version_no=$(cut -d '.' -f 3 <<< "${{ steps.get_version_number.outputs.version_no }}")" >> $GITHUB_OUTPUT
 
-  build-dev-images:
+  build-prod-images:
     needs: get-version-number
     uses: ./.github/workflows/build-docker-images.yml
     with:
@@ -36,9 +36,9 @@ jobs:
     secrets: inherit
 
 
-  deploy-dev:
-    needs: build-dev-images
+  deploy-prod:
+    needs: build-prod-images
     uses: ./.github/workflows/execute-deployment.yml
     with:
-      environment: 'dev'
+      environment: 'prod'
     secrets: inherit
