@@ -7,7 +7,6 @@ on:
 
 jobs:
   get-version-number:
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     outputs:
       version-no: ${{ steps.get_version_number.outputs.version_no }}
@@ -16,7 +15,7 @@ jobs:
       version-no-patch: ${{ steps.get_version_number.outputs.version_no }}
     steps:
       - id: get_version_number
-        run: echo "version_no=${${{ github.ref_name }}:1}" >> $GITHUB_OUTPUT
+        run: echo "version_no=$(cut -c2- <<< ${{ github.ref_name }})" >> $GITHUB_OUTPUT
       - id: get_major_version_number
         run: echo "version_no=$(cut -d '.' -f 1 <<< "${{ steps.get_version_number.outputs.version_no }}")" >> $GITHUB_OUTPUT
       - id: get_minor_version_number
@@ -24,7 +23,7 @@ jobs:
       - id: get_patch_version_number
         run: echo "version_no=$(cut -d '.' -f 3 <<< "${{ steps.get_version_number.outputs.version_no }}")" >> $GITHUB_OUTPUT
 
-  build-dev-images:
+  build-prod-images:
     needs: get-version-number
     uses: ./.github/workflows/build-docker-images.yml
     with:
@@ -34,9 +33,12 @@ jobs:
       version-number-patch: ${{ needs.get-version-number.outputs.version-no-patch }}
       discord-interface-container-name: 'discord-interface'
       spring-backend-container-name: 'progamer-bot-spring-backend'
+    secrets: inherit
 
-  deploy-dev:
-    needs: build-dev-images
+
+  deploy-prod:
+    needs: build-prod-images
     uses: ./.github/workflows/execute-deployment.yml
     with:
-      environment: 'dev'
+      environment: 'prod'
+    secrets: inherit
