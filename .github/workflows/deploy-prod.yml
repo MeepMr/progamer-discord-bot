@@ -33,9 +33,12 @@ jobs:
       version-number-patch: ${{ needs.get-version-number.outputs.version-no-patch }}
       discord-interface-container-name: 'discord-interface'
       spring-backend-container-name: 'progamer-bot-spring-backend'
+    secrets: inherit
+
 
   deploy-dev:
     needs: build-dev-images
     uses: ./.github/workflows/execute-deployment.yml
     with:
       environment: 'dev'
+    secrets: inherit
