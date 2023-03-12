@@ -10,7 +10,7 @@ jobs:
   deploy:
     environment: ${{ inputs.environment }}
     name: "Deploy to ${{ inputs.environment }}"
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted]
     steps:
       - name: Configure SSH
         run: |
