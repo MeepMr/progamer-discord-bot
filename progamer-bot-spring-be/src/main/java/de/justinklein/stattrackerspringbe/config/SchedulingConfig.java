@@ -18,14 +18,14 @@ public class SchedulingConfig {
   private final DiscordUpdater discordUpdater;
 
   // Runs every day at 00:00 (using server-time)
-  @Scheduled(fixedDelay = 10000)
+  @Scheduled(cron = "0 0 0 * * *")
   public void sendBirthdayMessages() {
     log.info("Running daily schedule to send all birthday-messages");
     birthdayBotService.sendBirthdayMessages();
   }
 
   // Runs every hour
-  @Scheduled(fixedDelay = 10000)
+  @Scheduled(cron = "0 0 * * * *")
   public void updateUserDatabase() {
     log.info("Updating users for all guilds (%d)");
     discordUpdater.updateUserDatabase();
