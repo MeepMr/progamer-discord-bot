@@ -15,7 +15,7 @@ jobs:
       version-no-patch: ${{ steps.get_version_number.outputs.version_no }}
     steps:
       - id: get_version_number
-        run: echo "version_no=${${{ github.ref_name }}:1}" >> $GITHUB_OUTPUT
+        run: echo "version_no=$(cut -c2- <<< ${{ github.ref_name }})" >> $GITHUB_OUTPUT
       - id: get_major_version_number
         run: echo "version_no=$(cut -d '.' -f 1 <<< "${{ steps.get_version_number.outputs.version_no }}")" >> $GITHUB_OUTPUT
       - id: get_minor_version_number
