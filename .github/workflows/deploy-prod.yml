@@ -10,18 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version-no: ${{ steps.get_version_number.outputs.version_no }}
-      version-no-major: ${{ steps.get_version_number.outputs.version_no }}
-      version-no-minor: ${{ steps.get_version_number.outputs.version_no }}
-      version-no-patch: ${{ steps.get_version_number.outputs.version_no }}
+      version-no-major: ${{ steps.get_major_version_number.outputs.version_no_major }}
+      version-no-minor: ${{ steps.get_minor_version_number.outputs.version_no_minor }}
+      version-no-patch: ${{ steps.get_patch_version_number.outputs.version_no_patch }}
     steps:
       - id: get_version_number
         run: echo "version_no=$(cut -c2- <<< ${{ github.ref_name }})" >> $GITHUB_OUTPUT
       - id: get_major_version_number
-        run: echo "version_no=$(cut -d '.' -f 1 <<< "${{ steps.get_version_number.outputs.version_no }}")" >> $GITHUB_OUTPUT
+        run: echo "version_no_major=$(cut -d '.' -f 1 <<< "${{ steps.get_version_number.outputs.version_no }}")" >> $GITHUB_OUTPUT
       - id: get_minor_version_number
-        run: echo "version_no=$(cut -d '.' -f 2 <<< "${{ steps.get_version_number.outputs.version_no }}")" >> $GITHUB_OUTPUT
+        run: echo "version_no_minor=$(cut -d '.' -f 2 <<< "${{ steps.get_version_number.outputs.version_no }}")" >> $GITHUB_OUTPUT
       - id: get_patch_version_number
-        run: echo "version_no=$(cut -d '.' -f 3 <<< "${{ steps.get_version_number.outputs.version_no }}")" >> $GITHUB_OUTPUT
+        run: echo "version_no_patch=$(cut -d '.' -f 3 <<< "${{ steps.get_version_number.outputs.version_no }}")" >> $GITHUB_OUTPUT
 
   build-prod-images:
     needs: get-version-number
