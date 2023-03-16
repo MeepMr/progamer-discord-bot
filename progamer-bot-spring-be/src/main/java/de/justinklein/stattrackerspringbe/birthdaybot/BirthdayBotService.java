@@ -26,11 +26,10 @@ public class BirthdayBotService {
   private final DiscordMessageSender messageSender;
 
   public void sendBirthdayMessages() {
-    guildService.getAllGuilds().forEach(guild -> {
-      getMembersWhereBirthdayIsTodayFromGuild(guild).forEach(member -> {
-        sendBirthdayMessageToMember(member, guild);
-      });
-    });
+    guildService.getAllGuilds()
+      .forEach(guild -> getMembersWhereBirthdayIsTodayFromGuild(guild)
+        .forEach(member -> sendBirthdayMessageToMember(member, guild))
+      );
   }
 
   private void sendBirthdayMessageToMember(DiscordMember member, DiscordGuild guild) {
@@ -39,10 +38,12 @@ public class BirthdayBotService {
       guild.getGuildId()
     ));
 
+    var birthdayText = "Happy Birthday, <@%d>".formatted(member.getDiscordId());
+
     messageSender.sendMessage(
       guild.getGuildId(),
       guild.getBirthdayConfig().getBirthdayChannelId(),
-      "Test-Birthday-Message"
+      birthdayText
     );
   }
 
