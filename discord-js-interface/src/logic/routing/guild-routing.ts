@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import { GuildFetcher } from '../discord-fetcher/guild-fetcher';
 import { concatMap, map, mergeMap, take, toArray } from 'rxjs';
 import { ChannelMapper } from '../mapper/ChannelMapper';
@@ -20,7 +20,7 @@ export class GuildRoutingModule {
     return this.guildRouter;
   }
 
-  static getAllGuilds(req: Request, res: Response): void {
+  static getAllGuilds(req: Request, res: Response, next: NextFunction): void {
     GuildRoutingModule.guildFetcher.getAllGuilds$()
       .pipe(
         mergeMap(guilds => guilds),
@@ -35,10 +35,10 @@ export class GuildRoutingModule {
       )
       .subscribe(dtos => {
         res.send(dtos);
-      });
+      }, next);
   };
 
-  static getMembersFromGuild(req: Request, res: Response): void {
+  static getMembersFromGuild(req: Request, res: Response, next: NextFunction): void {
     const guildId = req.params.guildId;
 
     GuildRoutingModule.guildFetcher.getGuild$(guildId).pipe(
@@ -51,6 +51,6 @@ export class GuildRoutingModule {
     ).subscribe(members => res.send({
       guildId: guildId,
       guildMembers: members,
-    }));
+    }), next);
   }
 }

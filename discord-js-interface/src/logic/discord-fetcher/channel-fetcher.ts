@@ -29,8 +29,9 @@ export class ChannelFetcher {
   public getTextChannelById$(channelId: string, guild: Guild): Observable<TextChannel> {
     return this.getTextChannelsFromGuild$(guild).pipe(
       map(channels => {
-        channels.filter(channel => channel.id === channelId);
-        return channels.pop() as TextChannel;
+        const filteredChannels = channels.filter(channel => channel.id.toString() === channelId);
+        filteredChannels.forEach(c => console.log(c.id));
+        return filteredChannels.pop() as TextChannel;
       }),
     );
   }

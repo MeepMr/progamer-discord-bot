@@ -11,7 +11,7 @@ public class DiscordMessageSender {
 
   public void sendMessage(Long guildId, Long channelId, String messageText) {
     var message = SendMessageDto.builder()
-      .channelId(channelId)
+      .channelId(channelId.toString())
       .messageText(messageText)
       .build();
 
