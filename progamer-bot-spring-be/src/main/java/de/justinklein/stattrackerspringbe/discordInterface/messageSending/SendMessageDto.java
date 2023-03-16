@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class SendMessageDto {
-  private Long channelId;
+  private String channelId;
   private String messageText;
 }

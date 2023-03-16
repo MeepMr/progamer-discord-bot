@@ -3,11 +3,11 @@ name: Deploy Dev
 on:
   push:
     branches:
-      - development
+      - main
 
 jobs:
   get-version-number:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted]
     outputs:
       version-no: ${{ steps.get_version_number.outputs.version_no }}
       version-no-major: ${{ steps.get_major_version_number.outputs.version_no_major }}
