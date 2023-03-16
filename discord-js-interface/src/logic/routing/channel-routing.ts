@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import { ChannelFetcher } from '../discord-fetcher/channel-fetcher';
 import { GuildFetcher } from '../discord-fetcher/guild-fetcher';
 import { ChannelWithMembersDto } from '../../model/dto/ChannelWithMembersDto';
@@ -20,7 +20,7 @@ export class ChannelRoutingModule {
     return this.channelRouter;
   }
 
-  private static getAllTextChannels(req: Request, res: Response) {
+  private static getAllTextChannels(req: Request, res: Response, next: NextFunction) {
     ChannelRoutingModule.guildFetcher.getAllGuilds$().pipe(
       concatMap(guilds => {
         return ChannelRoutingModule.channelFetcher.getTextChannelsFromGuild$(guilds[0]);
@@ -33,10 +33,10 @@ export class ChannelRoutingModule {
         }
         return channelDtos;
       }),
-    ).subscribe(channelDtos => res.send(channelDtos));
+    ).subscribe(channelDtos => res.send(channelDtos), next);
   }
 
-  private static getAllVoiceChannels(req: Request, res: Response) {
+  private static getAllVoiceChannels(req: Request, res: Response, next: NextFunction) {
     ChannelRoutingModule.guildFetcher.getAllGuilds$().pipe(
       concatMap(guilds => {
         return ChannelRoutingModule.channelFetcher.getVoiceChannelsFromGuild$(guilds[0]);
@@ -49,6 +49,6 @@ export class ChannelRoutingModule {
         }
         return channelDtos;
       }),
-    ).subscribe(channelDtos => res.send(channelDtos));
+    ).subscribe(channelDtos => res.send(channelDtos), next);
   }
 }
