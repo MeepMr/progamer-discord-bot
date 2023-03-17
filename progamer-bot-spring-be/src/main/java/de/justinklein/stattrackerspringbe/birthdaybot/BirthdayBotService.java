@@ -1,5 +1,6 @@
 package de.justinklein.stattrackerspringbe.birthdaybot;
 
+import de.justinklein.stattrackerspringbe.birthdaybot.birthdayConfig.BirthdayConfig;
 import de.justinklein.stattrackerspringbe.birthdaybot.birthdayConfig.BirthdayConfigRepository;
 import de.justinklein.stattrackerspringbe.discordInterface.guildManagement.DiscordGuildService;
 import de.justinklein.stattrackerspringbe.discordInterface.guildManagement.discordGuild.DiscordGuild;
@@ -26,10 +27,16 @@ public class BirthdayBotService {
   private final DiscordMessageSender messageSender;
 
   public void sendBirthdayMessages() {
-    guildService.getAllGuilds()
+    getAllGuildsWithEnabledBirthdayMessage()
       .forEach(guild -> getMembersWhereBirthdayIsTodayFromGuild(guild)
         .forEach(member -> sendBirthdayMessageToMember(member, guild))
       );
+  }
+
+  private Collection<DiscordGuild> getAllGuildsWithEnabledBirthdayMessage() {
+    return guildService.getAllGuilds().stream()
+      .filter(guild -> guild.getBirthdayConfig().isEnabled())
+      .toList();
   }
 
   private void sendBirthdayMessageToMember(DiscordMember member, DiscordGuild guild) {
@@ -38,13 +45,18 @@ public class BirthdayBotService {
       guild.getGuildId()
     ));
 
-    var birthdayText = "Happy Birthday, <@%d>".formatted(member.getDiscordId());
+    var birthdayText = buildBirthdayMessage(member, guild.getBirthdayConfig());
 
     messageSender.sendMessage(
       guild.getGuildId(),
       guild.getBirthdayConfig().getBirthdayChannelId(),
       birthdayText
     );
+  }
+
+  private String buildBirthdayMessage(DiscordMember member, BirthdayConfig config) {
+    var messageTemplate = config.getBirthdayMessage();
+    return messageTemplate.replace("${USER_NAME}", "<@%d>".formatted(member.getDiscordId()));
   }
 
   public void setBirthdayChannel(Long guildId, Long channelId) {
@@ -69,7 +81,7 @@ public class BirthdayBotService {
     var today = Calendar.getInstance();
     today.setTime(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
-    var members = memberService.getAllMembersWithBirthDayFromGuild(guild.getGuildId()).stream()
+    return memberService.getAllMembersWithBirthDayFromGuild(guild.getGuildId()).stream()
       .filter(member -> {
         var birthDate = Calendar.getInstance();
         birthDate.setTime(member.getBirthDate());
@@ -78,8 +90,5 @@ public class BirthdayBotService {
           today.get(Calendar.DAY_OF_MONTH) == birthDate.get(Calendar.DAY_OF_MONTH);
       })
       .toList();
-
-    members.forEach(System.out::println);
-    return members;
   }
 }

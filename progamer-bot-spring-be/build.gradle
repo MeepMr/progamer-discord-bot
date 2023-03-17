@@ -29,7 +29,8 @@ dependencies {
 
     // Database
     implementation deps.spring.boot.starter.data
-    implementation 'org.liquibase:liquibase-core:4.17.2'
+    implementation deps.db.liquibase
+    implementation deps.hibernate.validator
     runtimeOnly deps.db.postgres
 }
 

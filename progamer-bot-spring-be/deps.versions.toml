@@ -11,6 +11,7 @@ mssql = '12.+'
 apache-poi = '5.+'
 guava = '31.+'
 springdoc = '2.+'
+hibernate-validator = '8.+'
 
 [libraries]
 # spring booot
@@ -31,4 +32,5 @@ lombok-plugin = { module = 'io.freefair.gradle:lombok-plugin', version.ref = 'lo
 # db
 db-postgres = { module = 'org.postgresql:postgresql', version.ref = 'postgres' }
 db-liquibase = { module = 'org.liquibase:liquibase-core', version.ref = 'liquibase' }
+hibernate-validator = { module = 'org.hibernate:hibernate-validator', version.ref = 'hibernate-validator' }
 
