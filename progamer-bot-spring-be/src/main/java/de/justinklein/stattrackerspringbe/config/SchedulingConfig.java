@@ -4,7 +4,9 @@ import de.justinklein.stattrackerspringbe.birthdaybot.BirthdayBotService;
 import de.justinklein.stattrackerspringbe.discordInterface.DiscordUpdater;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -18,7 +20,7 @@ public class SchedulingConfig {
   private final DiscordUpdater discordUpdater;
 
   // Runs every day at 00:00 (using server-time)
-  @Scheduled(cron = "0 0 0 * * *")
+  @Scheduled(cron = "0 1 0 * * *")
   public void sendBirthdayMessages() {
     log.info("Running daily schedule to send all birthday-messages");
     birthdayBotService.sendBirthdayMessages();
@@ -27,7 +29,12 @@ public class SchedulingConfig {
   // Runs every hour
   @Scheduled(cron = "0 0 * * * *")
   public void updateUserDatabase() {
-    log.info("Updating users for all guilds (%d)");
+    discordUpdater.updateUserDatabase();
+  }
+
+  @EventListener(ApplicationReadyEvent.class)
+  public void actionsAfterStartup() {
+    log.info("Application startup detected");
     discordUpdater.updateUserDatabase();
   }
 }
