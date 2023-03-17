@@ -1,4 +1,3 @@
-
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
@@ -25,6 +24,6 @@ logging:
   level:
     root: info
 
-stat-tracker:
+progamer-bot:
   discord-interface:
     url: "http://${DISCORD_INTERFACE_HOST}:${DISCORD_INTERFACE_PORT}"

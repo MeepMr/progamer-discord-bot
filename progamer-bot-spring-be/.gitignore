@@ -36,3 +36,4 @@ build/
 /.gradle/
 
 /logs/
+/.jpb/
