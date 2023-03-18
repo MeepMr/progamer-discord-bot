@@ -43,7 +43,7 @@ export class GuildRoutingModule {
 
     GuildRoutingModule.guildFetcher.getGuild$(guildId).pipe(
       concatMap(guild => {
-        return GuildRoutingModule.guildFetcher.getMembersFromGuild$(guild);
+        return GuildRoutingModule.guildFetcher.getMembersFromGuild$(guild.id);
       }),
       concatMap(members => members),
       map(member => MemberMapper.mapToDto(member)),

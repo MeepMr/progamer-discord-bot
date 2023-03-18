@@ -1,5 +1,5 @@
 import { Client, Guild, GuildMember } from 'discord.js';
-import { concatMap, defer, filter, from, map, Observable, toArray } from 'rxjs';
+import { concatMap, defer, filter, from, map, Observable, of, toArray } from 'rxjs';
 
 export class GuildFetcher {
 
@@ -10,30 +10,30 @@ export class GuildFetcher {
   }
 
   getAllGuilds$(): Observable<Guild[]> {
-    return defer(() => from(this.discordClient.guilds.fetch()))
+    return of(this.discordClient.guilds.cache)
       .pipe(
-        concatMap(async oAuth2Guilds => {
+        map(guildsMap => {
           let guilds: Guild[] = [];
 
-          for (const oAuth2Guild of oAuth2Guilds.values()) {
-            guilds.push(await oAuth2Guild.fetch());
-          }
+          guildsMap.forEach(guild => {
+            guilds.push(guild);
+          });
 
           return guilds;
         }),
       );
   };
 
-  getMembersFromGuild$(guild: Guild): Observable<GuildMember[]> {
-    return defer(() => from(guild.members.list()))
+  getMembersFromGuild$(guildId: string): Observable<GuildMember[]> {
+    return defer(() => from(this.discordClient.guilds.cache.get(guildId)!.members.fetch()))
       .pipe(
-        map(memberMap => memberMap.values()),
-        map(members => {
+        map(memberMap => {
           const guildMembers: GuildMember[] = [];
 
-          for (let member of members) {
+          memberMap.forEach(member => {
             guildMembers.push(member);
-          }
+            console.log(member.id);
+          });
 
           return guildMembers;
         }),
