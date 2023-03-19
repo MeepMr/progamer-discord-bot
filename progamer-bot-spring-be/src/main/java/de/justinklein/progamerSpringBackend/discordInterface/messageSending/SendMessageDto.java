@@ -8,4 +8,5 @@ import lombok.Data;
 public class SendMessageDto {
   private String channelId;
   private String messageText;
+  private String guildId;
 }

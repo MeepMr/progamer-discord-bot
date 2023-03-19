@@ -15,8 +15,8 @@ export class MessageRoutingModule {
   private static sendMessage(req: Request, res: Response, next: NextFunction) {
     const channelId = req.body.channelId!;
     const message = req.body.messageText!;
-    console.log('Sending Message to Channel ' + channelId);
-    MessageRoutingModule.messageSender.sendMessageToChannel$(channelId, message)
+    const guildId = req.body.guildId!;
+    MessageRoutingModule.messageSender.sendMessageToChannel$(channelId, guildId, message)
       .subscribe(() => res.send(), next);
   }
 }

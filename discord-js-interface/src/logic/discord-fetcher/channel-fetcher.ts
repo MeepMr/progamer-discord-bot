@@ -30,7 +30,6 @@ export class ChannelFetcher {
     return this.getTextChannelsFromGuild$(guild).pipe(
       map(channels => {
         const filteredChannels = channels.filter(channel => channel.id.toString() === channelId);
-        filteredChannels.forEach(c => console.log(c.id));
         return filteredChannels.pop() as TextChannel;
       }),
     );

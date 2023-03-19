@@ -13,6 +13,7 @@ public class DiscordMessageSender {
     var message = SendMessageDto.builder()
       .channelId(channelId.toString())
       .messageText(messageText)
+      .guildId(guildId.toString())
       .build();
 
     this.interfaceConnector.sendMessage(guildId, message);
