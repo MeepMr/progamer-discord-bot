@@ -1,0 +1,3 @@
+[submodule "discord-js-interface"]
+	path = discord-js-interface
+	url = https://github.com/MeepMr/discord-js-interface
