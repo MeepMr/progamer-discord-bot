@@ -62,7 +62,7 @@ jobs:
         with:
           submodules: true
       - name: Update version number in package.json
-        run: npm version ${{ inputs.version-number }}
+        run: npm version ${{ inputs.version-number }} --no-git-tag-version
         working-directory: ./discord-js-interface
       - name: Set up QEMU
         uses: docker/setup-qemu-action@master
