@@ -25,7 +25,9 @@ on:
 
 jobs:
   build-spring-backend-image:
-    runs-on: [self-hosted]
+    runs-on: [ self-hosted ]
+    permissions:
+      packages: write
     steps:
       - uses: actions/checkout@v3
       - name: Set up QEMU
@@ -56,7 +58,9 @@ jobs:
             ghcr.io/meepmr/${{ inputs.spring-backend-container-name }}:${{ inputs.version-number-major }}.${{ inputs.version-number-minor }}
 
   build-discord-interface-image:
-    runs-on: [self-hosted]
+    runs-on: [ self-hosted ]
+    permissions:
+      packages: write
     steps:
       - uses: actions/checkout@v3
         with:
