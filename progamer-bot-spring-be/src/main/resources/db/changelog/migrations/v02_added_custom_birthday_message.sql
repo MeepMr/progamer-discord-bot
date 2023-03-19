@@ -10,3 +10,7 @@ SET birthday_message = 'Happy Birthday, ${USER_NAME}'
 WHERE birthday_message IS NULL;
 ALTER TABLE birthday_config
     ALTER COLUMN birthday_message SET NOT NULL;
+
+-- changeset justinklein:1679232734026-1
+ALTER TABLE birthday_config
+    ALTER COLUMN birthday_message SET DEFAULT 'Happy Birthday, ${USER_NAME}';
