@@ -34,7 +34,7 @@ public class BirthdayBotService {
   }
 
   private Collection<DiscordGuild> getAllGuildsWithEnabledBirthdayMessage() {
-    return guildService.getAllGuilds().stream()
+    return guildService.getAllGuildsFromDatabase().stream()
       .filter(guild -> guild.getBirthdayConfig().isEnabled())
       .toList();
   }

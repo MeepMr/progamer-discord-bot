@@ -14,3 +14,6 @@ ALTER TABLE birthday_config
 -- changeset justinklein:1679232734026-1
 ALTER TABLE birthday_config
     ALTER COLUMN birthday_message SET DEFAULT 'Happy Birthday, ${USER_NAME}';
+
+-- changeset justinklein:1679513465571-1
+CREATE SEQUENCE IF NOT EXISTS birthday_config_seq START WITH 1 INCREMENT BY 50;

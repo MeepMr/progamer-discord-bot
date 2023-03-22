@@ -20,7 +20,7 @@ public class DiscordGuildService {
     guildRepository.save(guild);
   }
 
-  public Collection<DiscordGuild> getAllGuilds() {
+  public Collection<DiscordGuild> getAllGuildsFromDatabase() {
     return guildRepository.findAll();
   }
 }
