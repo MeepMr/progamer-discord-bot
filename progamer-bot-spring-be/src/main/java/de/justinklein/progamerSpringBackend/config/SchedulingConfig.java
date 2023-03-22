@@ -28,13 +28,18 @@ public class SchedulingConfig {
 
   // Runs every hour
   @Scheduled(cron = "0 0 * * * *")
-  public void updateUserDatabase() {
-    discordUpdater.updateUserDatabase();
+  public void updateGuildDatabase() {
+    updateSavedGuilds();
   }
 
   @EventListener(ApplicationReadyEvent.class)
   public void actionsAfterStartup() {
     log.info("Application startup detected");
+    updateSavedGuilds();
+  }
+
+  private void updateSavedGuilds() {
+    discordUpdater.fetchNewGuilds();
     discordUpdater.updateUserDatabase();
   }
 }

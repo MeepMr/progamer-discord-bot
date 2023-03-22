@@ -16,6 +16,6 @@ public class DiscordMessageSender {
       .guildId(guildId.toString())
       .build();
 
-    this.interfaceConnector.sendMessage(guildId, message);
+    this.interfaceConnector.sendMessage(message);
   }
 }
